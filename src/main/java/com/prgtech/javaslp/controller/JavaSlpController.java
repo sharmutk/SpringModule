@@ -2,6 +2,8 @@ package com.prgtech.javaslp.controller;
 
 import com.prgtech.javaslp.model.Book;
 import com.prgtech.javaslp.model.Role;
+import com.prgtech.javaslp.model.User;
+import com.prgtech.javaslp.model.IssuedBook;
 import com.prgtech.javaslp.service.JavaSlpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +43,11 @@ public class JavaSlpController {
     public List<Book> getAllBooks() {
         return service.getAvailableBooks();
     }
+    
+    @GetMapping("/books/all")
+    public List<Book> getAllBooksIncludingUnavailable() {
+        return service.getAllBooks();
+    }
 
     @PostMapping("/users/{username}/request/{bookName}")
     public Map<String, String> borrowBook(@PathVariable String username, @PathVariable String bookName) {
@@ -57,6 +64,16 @@ public class JavaSlpController {
     @GetMapping("/admin/report")
     public Map<String, Object> report() {
         return service.generateReport();
+    }
+    
+    @GetMapping("/users")
+    public List<User> getAllUsers() {
+        return service.getAllUsers();
+    }
+    
+    @GetMapping("/users/{username}/books")
+    public List<IssuedBook> getUserIssuedBooks(@PathVariable String username) {
+        return service.getUserIssuedBooks(username);
     }
 
     // Debug endpoint
